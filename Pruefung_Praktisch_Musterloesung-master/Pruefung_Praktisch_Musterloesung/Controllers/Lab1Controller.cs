@@ -12,7 +12,18 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
         /**
          * 
          * ANTWORTEN BITTE HIER
+         * Aufgabe #1:
+         * Möglichkeit 1: Datenbanknamen wird in der URL mitgegeben und kann verwendet werden, um eine eigene Datenbank anzubinden.
+ +       * Möglichkeit 2: Filename wird per URL gesendet und man kann auf weitere Files schliessen oder andere Files herunterladen durch Manipulation der URL.
          * 
+         * Aufgabe #2:
+         * URL 1: http://localhost:50374/Lab1/index?file=HackerDB
+         * URL 2: http://localhost:50374/Lab1/index?file=Data.txt
+         * 
+         * Aufgabe #3
+         * Möglichkeit 1: Man kann eine eigene Datenbank anhängen und so sich Zugang zu Bereichen und Daten schaffen, die man sonst nicht erreichen kann
+         * Möglichkeit 2: Mit der URL kann man ein anderes File herunterladen, indem man die URL ändert/manipuliert.
+         *
          * */
 
 
@@ -23,6 +34,11 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
             if (string.IsNullOrEmpty(type))
             {
                 type = "lions";                
+            }
+            else
+            {
+                type.Replace("\\", "");
+                type.Replace("/", "");
             }
 
             var path = "~/Content/images/" + type;
@@ -80,7 +96,7 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
                 var absolutepath = Request.Url.AbsolutePath;
 
                 var filename = Path.GetFileName(file);
-                var imageuri = scheme + "://" + host + ":" + port + "/Content/images/" + type + "/" + filename;
+                var imageuri = scheme + "://" + host + ":" + port + "/Content/images/'" + type + "'/" + filename;
 
                 var urilistelement = new List<string>();
                 urilistelement.Add(filename);
