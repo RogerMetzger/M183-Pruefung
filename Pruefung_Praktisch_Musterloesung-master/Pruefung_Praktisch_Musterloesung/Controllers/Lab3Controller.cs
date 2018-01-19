@@ -15,6 +15,13 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
         * 
         * ANTWORTEN BITTE HIER
         * 
+        * Aufgabe 3.1
+        * Möglichkeit 1: Auch hier ist eine SQL-Injection möglich
+        * Möglichkeit 2: Möglich Daten aus der Datenbank abzufragen.
+        * 
+        * Erklärung 1: Passwort und User können als SQL-Injection eingegeben werden. Der Angreifer muss dafür ' OR 1=1'*\ eingeben
+        * Erklärung 2: SQL angeben und Daten abfragen
+        * 
         * */
 
         public ActionResult Index() {

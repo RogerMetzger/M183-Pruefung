@@ -18,10 +18,17 @@ namespace Pruefung_Praktisch_Musterloesung.Models
 
         public bool checkCredentials(string username, string password)
         {
+
+            SqlParameter[] sqlparams = new SqlParameter[2];
+            sqlparams[0] = new SqlParameter("@Username", username);
+            sqlparams[1] = new SqlParameter("@Password", password);
+
             SqlConnection con = this.setUp();
 
             SqlCommand cmd_credentials = new SqlCommand();
-            cmd_credentials.CommandText = "SELECT id FROM [dbo].[User] WHERE Username = '" + username + "' AND Password = '" + password + "'";
+            cmd_credentials.CommandText = "SELECT id FROM [dbo].[User] WHERE Username = @Username AND Password = @Password";
+            cmd_credentials.Parameters.Add(sqlparams[0]);
+            cmd_credentials.Parameters.Add(sqlparams[1]);
             cmd_credentials.Connection = con;
 
             con.Open();
