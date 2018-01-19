@@ -18,10 +18,17 @@ namespace Pruefung_Praktisch_Musterloesung.Models
 
         public bool checkCredentials(string username, string password)
         {
+            SqlParameter[] sqlparams = new SqlParameter[2];
+            sqlparams[0] = new SqlParameter("@Username", username);
+            sqlparams[1] = new SqlParameter("@Password", password);
+
+
             SqlConnection con = this.setUp();
 
             SqlCommand cmd_credentials = new SqlCommand();
-            cmd_credentials.CommandText = "SELECT id FROM [dbo].[Userlogin] WHERE Username = '" + username + "' AND Password = '" + password + "'";
+            cmd_credentials.CommandText = "SELECT id FROM [dbo].[Userlogin] WHERE Username = @Username AND Password = @Password";
+            cmd_credentials.Parameters.Add(sqlparams[0]);
+            cmd_credentials.Parameters.Add(sqlparams[1]);
             cmd_credentials.Connection = con;
 
             con.Open();
@@ -54,14 +61,14 @@ namespace Pruefung_Praktisch_Musterloesung.Models
             return res > 0;
         }
 
-        public bool checkSessionInfos(string sessionid)
+        public bool checkSessionInfos(string sessionid, string browser, string ip)
         {
             if (string.IsNullOrEmpty(sessionid)) return false;
 
             SqlConnection con = this.setUp();
             
             SqlCommand cmd_credentials = new SqlCommand();
-            cmd_credentials.CommandText = "SELECT id FROM [dbo].[Userlogin] WHERE SessionID = '" + sessionid + "'";
+            cmd_credentials.CommandText = "SELECT id FROM [dbo].[Userlogin] WHERE SessionID = '" + sessionid + "' AND Browser ='" + browser + "' AND Ip='" + ip + "'";
             cmd_credentials.Connection = con;
 
             con.Open();

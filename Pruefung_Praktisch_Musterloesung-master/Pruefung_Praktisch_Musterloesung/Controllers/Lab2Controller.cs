@@ -19,6 +19,17 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
         * 
         * ANTWORTEN BITTE HIER
         * 
+        * Aufgabe 2.1
+        * Möglichkeit 1: Keine Prüfung ob, der User derjenige ist, der er vorgibt zu sein. (Browser und IP des einzuloggenden Users wird nicht gecheckt)
+        * Möglichkeit 2: Die SessionID wird nicht gecheckt.
+        * 
+        * URL 1: http://localhost:50374/Lab2/login?sid=5804128a98f00e9a80245eb2710b62f0b8c9413d 
+        * Erklärung 1: Der Angreifer kann eine SessionID abfangen und sich mit dieser versuchen einzuloggen. Der Angreifer versucht sich auf einem anderen Browser 
+        *              und einer anderen IP mithilfe der SessionID einzuloggen. Wenn nicht geprüft wird, ob dieser Browser und diese IP von dem ursprünglichen User 
+        *              benutzt wurden, kann er also vorgeben er sei bereits eingeloggt.
+        * URL 2: http://localhost:50374/Lab2/login?password=<sql_injection>select * from user where 1=1</sql_injection>
+        * Erklärung 2: Der Angreifer kann als passwort etwas eingeben, was immer true gibt also 1=1 OR 'TRUE', so kann er sich einloggen ohne Passwort zu wissen
+        * 
         * */
 
         public ActionResult Index() {
@@ -80,14 +91,17 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
             {
                 sessionid = Request.QueryString["sid"];
             }
-            
+
             // hints:
             //var used_browser = Request.Browser.Platform;
             //var ip = Request.UserHostAddress;
 
+            var browser = Request.Browser.Platform;
+            var ip = Request.UserHostAddress;
+
             Lab2Userlogin model = new Lab2Userlogin();
 
-            if (model.checkSessionInfos(sessionid))
+            if (model.checkSessionInfos(sessionid, browser, ip))
             {
                 return View();
             }
